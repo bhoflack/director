@@ -1,0 +1,9 @@
+[package]
+
+name = "director"
+version = "0.0.1"
+authors = ["Brecht Hoflack <brh@melexis.com>"]
+
+[lib]
+name = "director"
+path = "src/director/libs.rs"
