@@ -3,28 +3,34 @@ open Types
 open OUnit2
 
 let decode_simple_project _ = 
-    assert_equal (Some {name = "test-project";
-                        version = "1.0.0";
-                        tasks = []})
+    assert_equal ({name = "test-project";
+                   version = "1.0.0";
+                   tasks = []})
                  (Project.from_string "{\"name\": \"test-project\", \"version\": \"1.0.0\"}")
 
 let decode_invalid_project _ =
-    assert_equal None (Project.from_string "{\"name\": \"blaat\"}")
+    try
+        let _ = Project.from_string "{\"name\": \"blaat\"}" in
+        assert_failure "Should trigger exception"
+    with
+        _ -> ()
 
 let decode_project_with_tasks _ =
     assert_equal 
-                 (Some {name = "test-project";
-                        version = "1.0.0";
-                        tasks = [ { task_name = "latest";
-                                    dependencies = [{dependency_name = "platform";
-                                                     dependency_version = "1.0.0-SNAPSHOT";
-                                                     dependency_task_name = "latest";
-                                                     source = GitSource "git@github.com:blaat/platform"}]};
-                                  { task_name = "release";
-                                    dependencies = [{dependency_name = "platform";
-                                                     dependency_version = "1.0.0";
-                                                     dependency_task_name = "release";
-                                                     source = GitSource "git@github.com:blaat/platform"}]}]})
+                 {name = "test-project";
+                  version = "1.0.0";
+                  tasks = [ { tr_name = "latest";
+                              tr_command = None;
+                              tr_dependencies = [{dr_name = "platform";
+                                                  dr_version = "1.0.0-SNAPSHOT";
+                                                  dr_task_name = "latest";
+                                                  dr_source = GitSource "git@github.com:blaat/platform"}]};
+                            { tr_name = "release";
+                              tr_command = None;
+                              tr_dependencies = [{dr_name = "platform";
+                                                  dr_version = "1.0.0";
+                                                  dr_task_name = "release";
+                                                  dr_source = GitSource "git@github.com:blaat/platform"}]}]}
                  (Project.from_string "{\"name\": \"test-project\",
                                         \"version\": \"1.0.0\",
                                         \"tasks\": [ {\"task_name\": \"latest\",

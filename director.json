@@ -1,0 +1,10 @@
+{"name": "test",
+ "version": "1.0.0",
+ "tasks": [
+   {"task_name": "test",
+    "depends": [{"name": "project-a",
+                 "version": "1.0.0-SNAPSHOT",
+                 "task_name": "latest",
+                 "git": "test-projects/project-a"
+                }]}
+ ]}
