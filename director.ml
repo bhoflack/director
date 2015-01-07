@@ -13,6 +13,7 @@ let flatten o =
         | Some (Some el) -> Some el
         | _ -> None
 
+(* Load a project from the disk using async *)
 let load_project 
     path
     =
@@ -24,7 +25,8 @@ let resolve_source
         match source with
           | GitSource src -> 
                   let gs = Gitsource.from_ref src in
-                  Gitsource.update gs; ResolvedGitRepo gs
+                  Gitsource.update gs; 
+                  ResolvedGitRepo gs
           | Path src -> ResolvedPath (Filesource.from_path src)
 
 let dependency_path src = match src with
@@ -38,7 +40,7 @@ let rec resolve_task
         let resolve_dependency dep =
             let resolved_source = resolve_source dep.dr_source in
             let dep_path = dependency_path resolved_source in
-            let project_path = "cache/" ^ dep_path ^ "/director.json" in
+            let project_path = dep_path ^ "/director.json" in
             load_project project_path
             >>| Project.find_task_ref ~task_name: dep.dr_task_name
         in

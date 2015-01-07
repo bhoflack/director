@@ -18,7 +18,7 @@ let generate_dirname
           let digest = String.slice (Digest.to_hex (Digest.string ref)) 0 6 in
           let project = extract_projectname ref in
           match project with
-            | Some project -> project ^ "-" ^ digest
+            | Some project -> "cache/" ^ project ^ "-" ^ digest
             | None -> raise Invalid_Projectname project
 
 let is_dir d =
@@ -40,10 +40,9 @@ let from_ref ref =
 (* Update the gitsource *)
 let update t =
     ensure_dir "cache";
-    let dir = "cache/" ^ t.dirname in
-    if not (is_dir ("cache/" ^ t.dirname ^ "/.git"))
-    then Git.clone ~dir t.ref
-    else Git.fetch ~dir ()
+    if not (is_dir (t.dirname ^ "/.git"))
+    then Git.clone ~dir:t.dirname t.ref
+    else Git.fetch ~dir:t.dirname ()
 
 
 let dir t = t.dirname
