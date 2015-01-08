@@ -10,4 +10,5 @@ RUN opam install -y yojson core async
 
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/.opam/system/bin
 
-CMD cd /director; ./build.sh director.native
+WORKDIR /director
+ENTRYPOINT ./build.sh clean director.native
