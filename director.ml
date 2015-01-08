@@ -89,4 +89,4 @@ let () =
                 ~doc: "Task to execute"
         )
         (fun task () -> run ~task_name: task)
-        |> Command.run
+        |> Command.run ~version: "1.0.0"
