@@ -29,7 +29,7 @@ type task_ref = { tr_name: string;
                 } with sexp
 
 type task = { t_name: string;
-              t_dependencies: task list;
+              t_dependencies: (resolved_source * task) list;
               t_command: string option;
             } with sexp
 
