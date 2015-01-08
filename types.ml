@@ -2,14 +2,14 @@ open Sexplib
 open Sexplib.Std
 
 type source = 
-    | GitSource of string
-    | Path of string
-    with sexp
+  | GitSource of string
+  | Path of string
+  with sexp
 
 type resolved_source =
-    | ResolvedGitRepo of Gitsource.t
-    | ResolvedPath of Filesource.t
-    with sexp
+  | ResolvedGitRepo of Gitsource.t
+  | ResolvedPath of Filesource.t
+  with sexp
 
 type dependency_ref = { dr_name: string; 
                         dr_version: string;

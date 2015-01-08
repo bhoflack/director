@@ -37,8 +37,11 @@ let rec resolve_task
                  return (resolved_source,
                          Project.find_task_ref ~task_name: dep.dr_task_name p)
         in
-        Deferred.all (List.map task_ref.tr_dependencies ~f: resolve_dependency)
-        >>= (fun task_refs -> Deferred.all (List.map task_refs ~f: fun (src, tr) -> resolve_task src tr))
+        Deferred.all (List.map task_ref.tr_dependencies
+                               ~f: resolve_dependency)
+        >>= (fun task_refs -> 
+                Deferred.all (List.map task_refs 
+                                       ~f: fun (src, tr) -> resolve_task src tr))
         >>= fun tasks ->
             return
                 (source, 
