@@ -1,7 +1,11 @@
-.PHONY: test json_test project_test
+.PHONY: test json_test project_test setenv
+
 
 director.byte:
 	corebuild -pkg yojson,async director.byte
+
+director.native:
+	corebuild -pkg yojson,async director.native
 
 json_test:
 	corebuild -pkg yojson json_test.byte
