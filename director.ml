@@ -6,8 +6,7 @@ module Core_unix = Core.Core_unix
 
 (* Load a project from the disk using async *)
 let load_project 
-    path
-    =
+    path =
     Reader.file_contents path
     >>| Project.from_string
 
@@ -48,6 +47,7 @@ let rec resolve_task
                    t_dependencies = tasks;
                  })
 
+(* Resolve the task and all its dependencies in the project file *)
 let resolve_tasks
     ~project_path
     ~task_name =
@@ -55,6 +55,7 @@ let resolve_tasks
         >>| Project.find_task_ref ~task_name
         >>= resolve_task (ResolvedPath (Filesource.from_path "."))
 
+(* Execute the commands associated with the task *)
 let rec run_tasks
         (src, task) =
             Deferred.all (List.map task.t_dependencies ~f: run_tasks) 
