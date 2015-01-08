@@ -60,7 +60,6 @@ let rec run_tasks
             Deferred.all (List.map task.t_dependencies ~f: run_tasks) 
             >>| fun _ -> (Option.map task.t_command 
                                     ~f: (fun cmd ->
-                                        print_endline ("Running command " ^ cmd);
                                         match Core_unix.fork () with
                                           | `In_the_child ->
                                                   Core_unix.chdir (dependency_path src);

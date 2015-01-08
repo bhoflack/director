@@ -9,9 +9,9 @@ exception Invalid_Projectname
 
 let generate_dirname 
     ref = let extract_projectname ref =
-            match (List.last (String.split ref '/')) with
+            match (List.last (String.split ref ~on:'/')) with
               | Some project ->
-                      (match List.hd (String.split project '.') with
+                      (match List.hd (String.split project ~on:'.') with
                         | Some project -> Some project
                         | _ -> Some project)
               | None -> None in
@@ -19,7 +19,7 @@ let generate_dirname
           let project = extract_projectname ref in
           match project with
             | Some project -> "cache/" ^ project ^ "-" ^ digest
-            | None -> raise Invalid_Projectname project
+            | None -> raise Invalid_Projectname
 
 let is_dir d =
     try

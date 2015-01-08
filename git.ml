@@ -3,9 +3,9 @@ open Core.Std
 (* Generate a unique dirname for a git ref *)
 let generate_dirname 
     ref = let extract_projectname ref =
-            match (List.last (String.split ref '/')) with
+            match (List.last (String.split ref ~on:'/')) with
               | Some project ->
-                      (match List.hd (String.split project '.') with
+                      (match List.hd (String.split project ~on:'.') with
                         | Some project -> Some project
                         | _ -> Some project)
               | None -> None in

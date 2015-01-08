@@ -23,4 +23,5 @@ test: json_test project_test gitsource_test
 
 clean:
 	rm -f *.byte
-
+	rm -f *.native
+	rm -rf _build

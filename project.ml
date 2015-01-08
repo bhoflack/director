@@ -32,6 +32,6 @@ let from_string str =
 let find_task_ref
     ~task_name
     project =
-        match (List.find project.tasks (fun task -> task.tr_name = task_name)) with
+        match (List.find project.tasks ~f:(fun task -> task.tr_name = task_name)) with
           | Some tr -> tr
           | None -> raise (Task_Not_Found task_name)
